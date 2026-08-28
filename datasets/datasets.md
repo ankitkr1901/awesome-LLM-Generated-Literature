@@ -13,7 +13,7 @@
 
 **Source:** Research project / arXiv publication  
 **Description:** A benchmark designed to investigate temporal training boundaries and knowledge lag in large language models.  
-**Application:** Evaluating how model knowledge aligns with publication/event time.  
+**Application:** Evaluating how model knowledge aligns with publication/event time.   
 **Paper:** https://arxiv.org/abs/2511.12116
 
 ## 3. Dated-Data / Temporal Knowledge Evaluation Resources
