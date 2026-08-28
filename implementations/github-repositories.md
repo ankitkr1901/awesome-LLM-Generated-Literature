@@ -10,7 +10,7 @@
 
 ## 2. RAGFlow
 
-**Purpose:** Retrieval-augmented generation framework focused on document understanding and grounded question answering.  
+**Purpose:** Retrieval-augmented generation framework focused on document understanding and grounded question answering.   
 **Why relevant:** Demonstrates practical retrieval-grounded pipelines that can help address knowledge freshness.  
 **Repository:** https://github.com/infiniflow/ragflow
 
