@@ -16,7 +16,7 @@ Official: https://www.semanticscholar.org/
 
 ## 3. OpenAlex
 
-Open scholarly catalog useful for metadata discovery, citation relationships, authors, venues, and research entities.
+Open scholarly catalog useful for metadata discovery,  citation relationships, authors, venues, and research entities.
 
 Official: https://openalex.org/
 
