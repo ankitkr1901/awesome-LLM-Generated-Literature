@@ -7,7 +7,7 @@ The following scholarly references are taken from the reference list of the acco
 1. Asai, A., Wu, Z., Wang, Y., Sil, A., & Hajishirzi, H. (2024). **Self-RAG: Learning to retrieve, generate, and critique through self-reflection.** ICLR 2024.  
    https://arxiv.org/abs/2310.11511
 
-2. Chelli, M., Descamps, J., Lavoué, V., Trojani, C., Azar, M., Deckert, M., Raynier, J.-L., Clowez, G., Boileau, P., & Ruetsch-Chelli, C. (2024). **Hallucination rates and reference accuracy of ChatGPT and Bard for systematic reviews: Comparative analysis.** Journal of Medical Internet Research, 26, e53164.  
+2. Chelli, M., Descamps, J., Lavoué, V., Trojani, C., Azar, M., Deckert, M., Raynier, J.-L., Clowez, G., Boileau, P., & Ruetsch-Chelli, C. (2024). **Hallucination rates and reference accuracy of ChatGPT and Bard for systematic reviews: Comparative analysis.** Journal of Medical Internet Research, 26, e53164.   
    https://doi.org/10.2196/53164
 
 3. Chen, X., & Zhang, X. (2025). **Large language models streamline automated systematic review: A preliminary study.** arXiv:2502.15702.  
