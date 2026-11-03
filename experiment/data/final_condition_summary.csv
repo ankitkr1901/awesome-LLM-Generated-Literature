@@ -1,0 +1,3 @@
+condition,citation_instances,within_cutoff,post_cutoff,unknown_date,matched,partial_match,doi_mismatch,post_cutoff_rate,bibliographic_match_rate
+A,51,36,15,0,45,5,1,0.29411764705882354,0.8823529411764706
+B,48,48,0,0,48,0,0,0.0,1.0
