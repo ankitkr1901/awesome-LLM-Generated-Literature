@@ -1,0 +1,12 @@
+{
+  "cutoff_date_inclusive": "2024-12-31",
+  "conditions": {
+    "A": "Standard literature-review prompt",
+    "B": "Same base prompt plus explicit publication-date boundary instruction"
+  },
+  "matched_pairs": ["P01", "P02", "P03", "P04", "P05"],
+  "generation_random_seed": 2026,
+  "primary_metric": "post_cutoff / dated citation instances",
+  "secondary_metric": "MATCH / analyzed citation instances",
+  "analysis_scope": "Re-analysis of archived CSV data; does not regenerate LLM outputs"
+}
