@@ -1,0 +1,180 @@
+\documentclass[manuscript]{acmart}
+
+% ACM single-column manuscript-style student research manuscript.
+% This is a generic ACM SIGCONF layout, not a claim of acceptance by an ACM venue.
+\settopmatter{printacmref=false, printccs=false, printfolios=true}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\setcopyright{none}
+
+\begin{document}
+
+\title{Knowledge Cutoffs, Temporal Knowledge Boundaries, and Citation Reliability in Large Language Models: A Controlled Comparative Study of Explicit Publication-Date Instructions}
+
+\author{Ankit Kumar}
+\affiliation{%
+  \institution{Indian Institute of Information Technology Allahabad}
+  \country{India}
+}
+
+\begin{abstract}
+Large language models (LLMs) can be used to perform literature syntheses. However, LLMs may produce references outside of a researcher's intended cut-off date. This paper aimed to determine if including a specific instruction regarding a cut-off date would alter the adherence to dates in LLM-generated literature reviews. A controlled experiment was performed which compared five pairs of prompts (10 total reviews). In condition A the prompt was a standard literature review prompt. In condition B it included specific instructions to ensure only scholarly articles published up to and including 31 December 2024 were included. If there were any unsure dates these should be excluded or flagged. When analysing the 99 citations, 15 were found to be after the cut-off date in condition A out of 51 (29.41\%). In condition B none were found out of 48 (0\%). Mean difference between the pairs was -29.64\%. When performing a sensitivity analysis using only biblographically matched references mean difference between the pairs was -27.14\%. All five pairs favoured condition B. However, the two-sided exact sign tests were not statistically significant (p=0.0625). These results show that there was observable differences in adherence to a specific cut-off date. It does not reflect how the model itself was trained to cutoff using its training data. A small sample size was used and manually audited so results should be interpreted with caution.
+\end{abstract}
+
+\keywords{large language models, temporal knowledge boundaries, citation reliability, literature review generation, bibliographic verification, prompt instruction}
+
+\maketitle
+\pagestyle{plain}
+
+\section{Introduction}
+Large language models are being increasingly used to support research summarization, relevance finding and literature review generation. In previous work, we investigated the problem of automatically generating literature reviews as well as the reliability of reference information in conversational systems \cite{kasanishi2023scireviewgen,chelli2024hallucination}. Fluent text does not necessarily provide an accurate representation of the temporal scope. The literature review may contain references to works published after the date required.
+
+Temporal fidelity refers to the accuracy of references and is similar to reference reliability. We may have references which point to real publications but out of our date range. Reference reliability may also be affected by incorrect metadata such as title, authors, location and DOI. There is work in temporal aware language modeling and retrieval augmented generation to provide some context for treating temporal scope and source grounding as explicit aspects of the system \cite{dhingra2022timeaware,lewis2020rag}.
+
+\subsection{Related work}
+Temporal knowledge in language models has been studied by understanding how time can be represented within models, how temporal reasoning can be measured, and how difficult it is to keep knowledge up-to-date. This motivates considering temporal aspects as explicit in a model's responses, instead of assuming a model's responses are temporally static \cite{dhingra2022timeaware,cheng2024dated,wu2024continual,tan2023temporal,zhang2025time,pezik2025llmlagbench,prior2026oldfriend,zhang2026tempo}.
+
+Factuality, hallucination, and trustworthiness have been explored by developing uncertainty detection methods, hallucination surveys and citation quality analysis \cite{farquhar2024entropy,gao2023rag,huang2025hallucination,kalai2025hallucinate,wang2024editing,chelli2024hallucination}.
+
+Retrieval in literature reviews has also been explored with retrieval-augmented generation, active retrieval, and datasets/evaluation for automatically generating literature reviews and scientific references \cite{asai2024selfrag,jiang2023active,kasanishi2023scireviewgen,chen2025systematic,ramirez2025multi,scherbakov2025review,tang2025review,wu2025review}.
+
+Although these areas provide useful context, they do not answer the specific question we are asking. This study looks at if explicitly stating a date limit will impact the references' dates returned. We are not trying to understand what the model's actual date limit during training is.
+
+This study looks at the very specific impact of explicitly stating a date limit in a literature review prompt. We are not attempting to understand what the actual date limit is in the model's training data, we are simply looking at the observable impact of the references' dates.
+
+\subsection{Research question}
+Would explicitly setting a cut-off date parameter lead to fewer citations after the cut-off date in literature reviews produced by a large language model?
+
+\subsection{Contributions}
+The study contributes by providing (1) a small-scale comparison between prompting with and without date boundaries; (2) a citation time audit at the instance level using five matched pairs of prompts; (3) a robustness check into the effect of bibliographic matching. This study does not attempt to develop any novel architectures within the model, but rather aims to provide an empirical comparison at the course level.
+
+\section{Methodology}
+\subsection{Study design and conditions}
+A controlled comparison design was used, utilising five matching prompts (P01-P05) to create ten generated literature reviews. Condition A contained a standard literature review prompt. Condition B contained the same base task however an explicit instruction to only cite scholarly sources published before or in 2024-12-31. The generation order was randomised using seed 2026. The literature reviews were generated manually via the ChatGPT interface.
+
+\subsection{Data collection and protocol deviation}
+The generated texts of the ten literature reviews were saved as individual documents. The information from the model selection dropdown and visible settings were noted in the generation logs where available. Whilst 800-1000 words were intended to be produced the generated reviews went above this number. This was noted. The generated outputs were not edited to reduce the word count. As the outputs were generated manually the original model outputs cannot be reproduced exactly.
+
+\subsection{Citation extraction and audit}
+There were 100 candidate references extracted from the text, one of which was comment text. Thus there were 99 references to be analysed. The candidate references were analysed by checking their bibliographic metadata and manually. They were labelled with one of the following: MATCH, PARTIAL\_MATCH, DOI\_MISMATCH, NOT\_APPLICABLE. Note that if a DOI could not be found it did not mean the reference was fake. It was acknowledged that preprints can have different dates to those in the proceedings.
+
+\subsection{Temporal classification}
+References were checked to see if they fell within the cut-off date (inclusive) of 31st Dec 2024. Therefore they were categorised as either WITHIN\_CUTOFF, POST\_CUTOFF or UNKNOWN\_DATE based on the candidate year of publication. Candidate years of publication are given. This does not mean that all dates were checked against an authoritative source. Where there was a preprint and a published version with differing dates only the cited version was relevant.
+
+\subsection{Measures}
+The primary metric was the post-cutoff citation rate:
+\[
+R_{post}=\frac{N_{post-cutoff}}{N_{dated}}\times 100.
+\]
+The secondary metric was the bibliographic match rate:
+\[
+R_{match}=\frac{N_{MATCH}}{N_{analyzed}}\times 100.
+\]
+Post-cutoff differences were also calculated between each pair. A sensitivity analysis was conducted using only those reference pairs which had a MATCH label. As only 5 matched pairs were identified, this has been presented descriptively with an emphasis on effect sizes. The direction of difference has been summarised with a two-sided exact sign test:
+
+\subsection{Reproducibility and analysis boundary}
+
+The repository includes the 10 review texts created, extraction and audit CSV files as well as protocol documents. There is also a Python script to calculate descriptive statistics and figures from the archived data. This script will reproduce the analysis of the archived tables but will not re-produce any of the original LLM outputs or individual manual decisions made during adjudication.
+
+\section{Results}
+\subsection{Overall temporal compliance}
+Table~\ref{tab:overall} reports the overall citation outcomes. Condition A contained 15 post-cutoff citations among 51 instances (29.41\%). Condition B contained no post-cutoff citations among 48 instances (0\%).
+
+\begin{table}[t]
+\caption{Overall temporal and bibliographic outcomes}
+\label{tab:overall}
+\centering
+\begin{tabular}{lrr}
+\toprule
+Measure & A & B \\
+\midrule
+Citation instances & 51 & 48 \\
+Within cutoff & 36 & 48 \\
+Post cutoff & 15 & 0 \\
+Unknown year & 0 & 0 \\
+Post-cutoff rate & 29.41\% & 0.00\% \\
+MATCH instances & 45 & 48 \\
+Match rate & 88.24\% & 100.00\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/figure1_overall_cutoff_rate.png}
+  \caption{Overall post-cutoff citation rates under the two prompt conditions.}
+  \Description{Bar chart comparing the post-cutoff citation rates: 29.41 percent for Condition A and zero percent for Condition B.}
+  \label{fig:overall}
+\end{figure}
+
+\subsection{Matched-pair comparison}
+The individual pair-wise cut-off rates for condition A were 30.00\%, 30.00\%, 30.00\%, 18.18\% and 40.00\% with corresponding zero cut-off rates for condition B of 0\%. The average decrease was 29.64\%. A two-sided exact sign test gave a p value of 0.0625 meaning that the result is not significant at the usual 0.05 level.
+
+\begin{table}[t]
+\caption{Post-cutoff rates by matched prompt pair}
+\label{tab:paired}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Pair & A & B & Reduction (pp) \\
+\midrule
+P01 & 30.00\% & 0.00\% & 30.00 \\
+P02 & 30.00\% & 0.00\% & 30.00 \\
+P03 & 30.00\% & 0.00\% & 30.00 \\
+P04 & 18.18\% & 0.00\% & 18.18 \\
+P05 & 40.00\% & 0.00\% & 40.00 \\
+\midrule
+Mean & 29.64\% & 0.00\% & 29.64 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/figure2_paired_comparison.png}
+  \caption{Post-cutoff citation rates for each matched prompt pair.}
+  \Description{Paired comparison plot showing a positive post-cutoff rate in each Condition A review and zero in each Condition B review.}
+  \label{fig:paired}
+\end{figure}
+
+\subsection{Bibliographic audit and sensitivity analysis}
+From the 100 extracted citations 93 matched (MATCH), 5 partially matched (PARTIAL\_MATCH), 1 mismatched (DOI\_MISMATCH) and 1 not applicable (NOT\_APPLICABLE). Removing the non-reference comment left 99 citations. In Condition A, 45 of 51 (88.24\%) matched. In Condition B 48 of 48 (100\%) matched. This does not confirm that all fields were correctly filled.
+
+For the sensitivity analysis only MATCH citations were used. In Condition A, 12 citations remained after the cut-off (26.67\%). In Condition B, none remained. The average decrease in citations per pair was 27.14\%.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/figure3_sensitivity_analysis.png}
+  \caption{Sensitivity analysis restricted to bibliographically matched references.}
+  \Description{Sensitivity analysis chart comparing post-cutoff rates among MATCH references: 26.67 percent for Condition A and zero percent for Condition B.}
+  \label{fig:sensitivity}
+\end{figure}
+
+\section{Discussion}
+This suggests that giving explicit temporal guidance in the form of a publication date can increase temporal accuracy. This difference was found in all five matched pairs, and was also present in the sensitivity analysis using only the MATCH output. This could be a useful finding since automated literature review systems have been assessed on their reference generation capabilities and literature review composition. However, we are interested in the accuracy of references and not fluent text generation \cite{kasanishi2023scireviewgen,chelli2024hallucination}.
+
+However, while there is evidence this is not strongly significant. The exact sign test did not reach significance at the 0.05 level and there is low statistical power from the five matched pairs. There is also low bibliographic match rates between the two conditions. We cannot conclude that using a temporal condition increases bibliographic accuracy since there are more matches in condition B due to the small sample size.
+
+Giving the model an explicit temporal condition is not measuring whether it has this knowledge within its own parameters. The reason for a post-cutoff reference could be due to retrieval, contextual information and model updates. Likewise, if there is not a reference after the cutoff we cannot conclude that the model does not have this knowledge. This is motivated by previous research into retrieval augmented generation and temporal language modelling \cite{lewis2020rag,dhingra2022timeaware}.
+\section{Limitations and Threats to Validity}
+\textbf{ Small N. } Five matching pairs, 10 reviews. Cannot be generalised.
+
+\textbf{ One interface/model combination. } Reviews were created by hand using one model/interface. May change.
+
+\textbf{ Reviews too long. } All created reviews were longer than the intended 800-1000 word length. This was not amended in post.
+
+\textbf{ Checking information by hand. } Decisions were made by hand on the bibliography and version of publication. Not all entries were complete or consistent. Candidate year of publication should not be confused with verified date from publishers.
+
+\textbf{ Not reproducible. } Not deterministic. Generation was done by hand in the UI. This can't be reproduced by calling an API. The analysis has been run on the stored data which can be seen in the script.
+
+\textbf{ Validity. } The main output is whether the cited publication years are after a certain cutoff. This does not indicate exactly when the model was cut off during training, whether the facts are correct in the narrative of the review, that all literature has been covered or why the difference is occurring.
+
+\section{Conclusion}
+The default prompt had a post-cut-off citation rate of 29.41\%, and this reduced to 0\% under the explicit date constraint. There was an average reduction of 29.64 in citation rates between the matched pairs. The MATCH only sensitivity analysis had a reduction of 27.14. However, all 5 pairs were favouring the constrained prompt. The two-sided exact sign test did not achieve significance (p=0.0625). Overall this suggests that whilst explicitly instructing to consider only publications on a certain date could be a useful practical control, it cannot replace manually checking the references, nor does it show how the model is internally limiting its knowledge. A larger study is required with more models, domains, prompts and multiple generations.
+
+\section*{Reproducibility Statement}
+The companion repository includes the 10 generated reviews, citation extraction and manual verification CSV files, prompt protocol, analysis script and result figures. The analysis of the archived data can be repeated by running the provided Python command in the experiment folder. However, reproducing the original manually generated ChatGPT responses is beyond the scope of this script.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
